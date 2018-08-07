@@ -15,7 +15,7 @@ const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
   inject: 'body',
 });
 // Vendor Libs to be bundled separately
-const vendorLibs = ['react', 'react-dom', 'jquery'];
+const vendorLibs = ['react', 'react-dom', 'react-youtube-background'];
 // Copy Webpack Plugin
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
