@@ -2,13 +2,12 @@
 import React, { Component } from 'react';
 import styled, { injectGlobal } from 'styled-components';
 import axios from 'axios';
-import $ from 'jquery';
-import tubular from 'jquery_tubular_plugin';
 
 // Components
 import Header from './Header';
 import Hero from './Hero';
 import Footer from './Footer';
+import Background from './Background';
 
 import * as config from '../config';
 
@@ -38,13 +37,6 @@ class App extends Component {
       })
       .then(res => this.setState({ channelInfo: res.data }))
       .catch(err => console.log(`Unable to fetch Twitch API ${err}`));
-    if (data.background_video) {
-      $('body').tubular({
-        videoId: data.background_video,
-        start: data.background_start,
-        wrapperZIndex: -1,
-      });
-    }
     document.title = `${data.twitch_channel} - ${data.site_title}`;
   }
   render() {
@@ -70,33 +62,20 @@ class App extends Component {
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    background-image: url("${data.background_image}");
-    background-size: cover;
-    background-position: center center;
-    background-repeat: no-repeat;
     z-index: 99;
-    &:after {
-      content: '';
-      background: linear-gradient(135deg, #000, #000);
-      width: 100%;
-      height: 100%;
-      opacity: ${data.overlay_opacity};
-      top: 0;
-      left: 0;
-      display: block;
-      z-index: -3;
-      position: absolute;
-    }
+    width: 100%;
   `;
     if (data === '') {
       return null;
     }
     return (
-      <Content>
-        <Header data={data} stream={this.state.streamInfo} />
-        <Hero data={data} channel={this.state.channelInfo} stream={this.state.streamInfo} />
-        <Footer data={data} />
-      </Content>
+      <Background data={data}>
+        <Content>
+          <Header data={data} stream={this.state.streamInfo} />
+          <Hero data={data} channel={this.state.channelInfo} stream={this.state.streamInfo} />
+          <Footer data={data} />
+        </Content>
+      </Background>
     );
   }
 }
