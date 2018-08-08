@@ -15820,165 +15820,6 @@ module.exports = function isObject(val) {
 
 /***/ }),
 
-/***/ "./node_modules/jquery_tubular_plugin/jquery.tubular.1.0.js":
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(jQuery) {/* jQuery tubular plugin
-|* by Sean McCambridge
-|* http://www.seanmccambridge.com/tubular
-|* version: 1.0
-|* updated: October 1, 2012
-|* since 2010
-|* licensed under the MIT License
-|* Enjoy.
-|*
-|* Thanks,
-|* Sean */
-
-;(function ($, window) {
-
-    // test for feature support and return if failure
-
-    // kill for mobile devices
-    var deviceWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
-
-    // defaults
-    var defaults = {
-        ratio: 16/9, // usually either 4/3 or 16/9 -- tweak as needed
-        videoId: 'ZCAnLxRvNNc', // toy robot in space is a good default, no?
-        mute: true,
-        repeat: true,
-        width: $(window).width(),
-        wrapperZIndex: 99,
-        playButtonClass: 'tubular-play',
-        pauseButtonClass: 'tubular-pause',
-        muteButtonClass: 'tubular-mute',
-        volumeUpClass: 'tubular-volume-up',
-        volumeDownClass: 'tubular-volume-down',
-        increaseVolumeBy: 10,
-        start: 0,
-        minimumSupportedWidth: 600
-    };
-
-    // methods
-
-    var tubular = function(node, options) { // should be called on the wrapper div
-        var options = $.extend({}, defaults, options),
-            $body = $('body') // cache body node
-        $node = $(node); // cache wrapper node
-
-        // build container
-        var tubularContainer = '<div id="tubular-container" style="overflow: hidden; position: fixed; z-index: 1; width: 100%; height: 100%"><div id="tubular-player" style="position: absolute"></div></div><div id="tubular-shield" style="width: 100%; height: 100%; z-index: 2; position: absolute; left: 0; top: 0;"></div>';
-
-        // set up css prereq's, inject tubular container and set up wrapper defaults
-        $('html,body').css({'width': '100%', 'height': '100%'});
-        $body.prepend(tubularContainer);
-        $node.css({position: 'relative', 'z-index': options.wrapperZIndex});
-
-        // set up iframe player, use global scope so YT api can talk
-        window.player;
-        window.onYouTubeIframeAPIReady = function() {
-            player = new YT.Player('tubular-player', {
-                width: options.width,
-                height: Math.ceil(options.width / options.ratio),
-                videoId: options.videoId,
-                playerVars: {
-                    controls: 0,
-                    showinfo: 0,
-                    modestbranding: 1,
-                    wmode: 'transparent'
-                },
-                events: {
-                    'onReady': onPlayerReady,
-                    'onStateChange': onPlayerStateChange
-                }
-            });
-        }
-
-        window.onPlayerReady = function(e) {
-            resize();
-            if (options.mute) e.target.mute();
-            e.target.seekTo(options.start);
-            e.target.playVideo();
-        }
-
-        window.onPlayerStateChange = function(state) {
-            if (state.data === 0 && options.repeat) { // video ended and repeat option is set true
-                player.seekTo(options.start); // restart
-            }
-        }
-
-        // resize handler updates width, height and offset of player after resize/init
-        var resize = function() {
-            var width = $(window).width(),
-                pWidth, // player width, to be defined
-                height = $(window).height(),
-                pHeight, // player height, tbd
-                $tubularPlayer = $('#tubular-player');
-
-            // when screen aspect ratio differs from video, video must center and underlay one dimension
-
-            if (width / options.ratio < height) { // if new video height < window height (gap underneath)
-                pWidth = Math.ceil(height * options.ratio); // get new player width
-                $tubularPlayer.width(pWidth).height(height).css({left: (width - pWidth) / 2, top: 0}); // player width is greater, offset left; reset top
-            } else { // new video width < window width (gap to right)
-                pHeight = Math.ceil(width / options.ratio); // get new player height
-                $tubularPlayer.width(width).height(pHeight).css({left: 0, top: (height - pHeight) / 2}); // player height is greater, offset top; reset left
-            }
-
-        }
-
-        // events
-        $(window).on('resize.tubular', function() {
-            resize();
-        })
-
-        $('body').on('click','.' + options.playButtonClass, function(e) { // play button
-            e.preventDefault();
-            player.playVideo();
-        }).on('click', '.' + options.pauseButtonClass, function(e) { // pause button
-            e.preventDefault();
-            player.pauseVideo();
-        }).on('click', '.' + options.muteButtonClass, function(e) { // mute button
-            e.preventDefault();
-            (player.isMuted()) ? player.unMute() : player.mute();
-        }).on('click', '.' + options.volumeDownClass, function(e) { // volume down button
-            e.preventDefault();
-            var currentVolume = player.getVolume();
-            if (currentVolume < options.increaseVolumeBy) currentVolume = options.increaseVolumeBy;
-            player.setVolume(currentVolume - options.increaseVolumeBy);
-        }).on('click', '.' + options.volumeUpClass, function(e) { // volume up button
-            e.preventDefault();
-            if (player.isMuted()) player.unMute(); // if mute is on, unmute
-            var currentVolume = player.getVolume();
-            if (currentVolume > 100 - options.increaseVolumeBy) currentVolume = 100 - options.increaseVolumeBy;
-            player.setVolume(currentVolume + options.increaseVolumeBy);
-        })
-    }
-
-    // load yt iframe js api
-
-    var tag = document.createElement('script');
-    tag.src = "//www.youtube.com/iframe_api";
-    var firstScriptTag = document.getElementsByTagName('script')[0];
-    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-    // create plugin
-
-    $.fn.tubular = function (options) {
-        return this.each(function () {
-            if (!$.data(this, 'tubular_instantiated')) { // let's only run one
-                $.data(this, 'tubular_instantiated',
-                    tubular(this, options));
-            }
-        });
-    }
-
-})(jQuery, window);
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__("./node_modules/jquery/dist/jquery.js")))
-
-/***/ }),
-
 /***/ "./node_modules/lodash/_DataView.js":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -31188,7 +31029,7 @@ var _index6 = _interopRequireDefault(_index5);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _templateObject = _taggedTemplateLiteral(['\n    @import url(\'https://fonts.googleapis.com/css?family=Roboto:500\');\n    @import url("', '");\n    body {color: ', ';}\n    * {box-sizing: border-box;}\n    html,body {margin: 0;padding: 0;background: #000;font-family: \'Roboto\', sans-serif; font-weight: 500;overflow-x: hidden;}\n    h1,h2 {display: inline-block;font-family: ', ';font-weight: ', '; padding: 0; margin: 0;}\n    p {margin: 0;padding: 0;}\n    .container {width: calc(100% - 4em);max-width: 1600px;margin: 0 auto;}\n    #hero {display: flex;flex-direction: column;justify-content: center;align-items: center;}\n    .centered {text-align: center;}\n  '], ['\n    @import url(\'https://fonts.googleapis.com/css?family=Roboto:500\');\n    @import url("', '");\n    body {color: ', ';}\n    * {box-sizing: border-box;}\n    html,body {margin: 0;padding: 0;background: #000;font-family: \'Roboto\', sans-serif; font-weight: 500;overflow-x: hidden;}\n    h1,h2 {display: inline-block;font-family: ', ';font-weight: ', '; padding: 0; margin: 0;}\n    p {margin: 0;padding: 0;}\n    .container {width: calc(100% - 4em);max-width: 1600px;margin: 0 auto;}\n    #hero {display: flex;flex-direction: column;justify-content: center;align-items: center;}\n    .centered {text-align: center;}\n  ']),
-    _templateObject2 = _taggedTemplateLiteral(['\n    position: relative;\n    min-height: 100vh;\n    display: flex;\n    flex-direction: column;\n    justify-content: space-between;\n    align-items: center;\n    background-image: url("', '");\n    background-size: cover;\n    background-position: center center;\n    background-repeat: no-repeat;\n    z-index: 99;\n    &:after {\n      content: \'\';\n      background: linear-gradient(135deg, #000, #000);\n      width: 100%;\n      height: 100%;\n      opacity: ', ';\n      top: 0;\n      left: 0;\n      display: block;\n      z-index: -3;\n      position: absolute;\n    }\n  '], ['\n    position: relative;\n    min-height: 100vh;\n    display: flex;\n    flex-direction: column;\n    justify-content: space-between;\n    align-items: center;\n    background-image: url("', '");\n    background-size: cover;\n    background-position: center center;\n    background-repeat: no-repeat;\n    z-index: 99;\n    &:after {\n      content: \'\';\n      background: linear-gradient(135deg, #000, #000);\n      width: 100%;\n      height: 100%;\n      opacity: ', ';\n      top: 0;\n      left: 0;\n      display: block;\n      z-index: -3;\n      position: absolute;\n    }\n  ']);
+    _templateObject2 = _taggedTemplateLiteral(['\n    position: relative;\n    min-height: 100vh;\n    display: flex;\n    flex-direction: column;\n    justify-content: space-between;\n    align-items: center;\n    z-index: 99;\n    width: 100%;\n  '], ['\n    position: relative;\n    min-height: 100vh;\n    display: flex;\n    flex-direction: column;\n    justify-content: space-between;\n    align-items: center;\n    z-index: 99;\n    width: 100%;\n  ']);
 
 var _styledComponents = __webpack_require__("./node_modules/styled-components/dist/styled-components.es.js");
 
@@ -31197,14 +31038,6 @@ var _styledComponents2 = _interopRequireDefault(_styledComponents);
 var _axios = __webpack_require__("./node_modules/axios/index.js");
 
 var _axios2 = _interopRequireDefault(_axios);
-
-var _jquery = __webpack_require__("./node_modules/jquery/dist/jquery.js");
-
-var _jquery2 = _interopRequireDefault(_jquery);
-
-var _jquery_tubular_plugin = __webpack_require__("./node_modules/jquery_tubular_plugin/jquery.tubular.1.0.js");
-
-var _jquery_tubular_plugin2 = _interopRequireDefault(_jquery_tubular_plugin);
 
 var _Header = __webpack_require__("./src/js/components/Header.jsx");
 
@@ -31217,6 +31050,10 @@ var _Hero2 = _interopRequireDefault(_Hero);
 var _Footer = __webpack_require__("./src/js/components/Footer.jsx");
 
 var _Footer2 = _interopRequireDefault(_Footer);
+
+var _Background = __webpack_require__("./src/js/components/Background.jsx");
+
+var _Background2 = _interopRequireDefault(_Background);
 
 var _config = __webpack_require__("./src/js/config.js");
 
@@ -31242,15 +31079,15 @@ var _components = {
   }
 };
 
-var _CUsersRmorrDesktopStreamerTemplateNode_modulesReactTransformHmrLibIndexJs2 = (0, _index6.default)({
-  filename: 'C:/Users/rmorr/Desktop/streamer-template/src/js/components/App.jsx',
+var _projectNode_modulesReactTransformHmrLibIndexJs2 = (0, _index6.default)({
+  filename: '/project/src/js/components/App.jsx',
   components: _components,
   locals: [module],
   imports: [_react3.default]
 });
 
-var _CUsersRmorrDesktopStreamerTemplateNode_modulesReactTransformCatchErrorsLibIndexJs2 = (0, _index4.default)({
-  filename: 'C:/Users/rmorr/Desktop/streamer-template/src/js/components/App.jsx',
+var _projectNode_modulesReactTransformCatchErrorsLibIndexJs2 = (0, _index4.default)({
+  filename: '/project/src/js/components/App.jsx',
   components: _components,
   locals: [],
   imports: [_react3.default, _index2.default]
@@ -31258,7 +31095,7 @@ var _CUsersRmorrDesktopStreamerTemplateNode_modulesReactTransformCatchErrorsLibI
 
 function _wrapComponent(id) {
   return function (Component) {
-    return _CUsersRmorrDesktopStreamerTemplateNode_modulesReactTransformHmrLibIndexJs2(_CUsersRmorrDesktopStreamerTemplateNode_modulesReactTransformCatchErrorsLibIndexJs2(Component, id), id);
+    return _projectNode_modulesReactTransformHmrLibIndexJs2(_projectNode_modulesReactTransformCatchErrorsLibIndexJs2(Component, id), id);
   };
 } // Dependencies
 
@@ -31315,16 +31152,9 @@ var App = _wrapComponent('App')(function (_Component) {
                 }).catch(function (err) {
                   return console.log('Unable to fetch Twitch API ' + err);
                 });
-                if (data.background_video) {
-                  (0, _jquery2.default)('body').tubular({
-                    videoId: data.background_video,
-                    start: data.background_start,
-                    wrapperZIndex: -1
-                  });
-                }
                 document.title = data.twitch_channel + ' - ' + data.site_title;
 
-              case 7:
+              case 6:
               case 'end':
                 return _context.stop();
             }
@@ -31343,16 +31173,20 @@ var App = _wrapComponent('App')(function (_Component) {
     value: function render() {
       var data = config.get();
       (0, _styledComponents.injectGlobal)(_templateObject, data.font_url, data.font_color, data.brand_font, data.font_weight);
-      var Content = _styledComponents2.default.div(_templateObject2, data.background_image, data.overlay_opacity);
+      var Content = _styledComponents2.default.div(_templateObject2);
       if (data === '') {
         return null;
       }
       return _react3.default.createElement(
-        Content,
-        null,
-        _react3.default.createElement(_Header2.default, { data: data, stream: this.state.streamInfo }),
-        _react3.default.createElement(_Hero2.default, { data: data, channel: this.state.channelInfo, stream: this.state.streamInfo }),
-        _react3.default.createElement(_Footer2.default, { data: data })
+        _Background2.default,
+        { data: data },
+        _react3.default.createElement(
+          Content,
+          null,
+          _react3.default.createElement(_Header2.default, { data: data, stream: this.state.streamInfo }),
+          _react3.default.createElement(_Hero2.default, { data: data, channel: this.state.channelInfo, stream: this.state.streamInfo }),
+          _react3.default.createElement(_Footer2.default, { data: data })
+        )
       );
     }
   }]);
@@ -31361,6 +31195,123 @@ var App = _wrapComponent('App')(function (_Component) {
 }(_react2.Component));
 
 exports.default = App;
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__("./node_modules/webpack/buildin/module.js")(module)))
+
+/***/ }),
+
+/***/ "./src/js/components/Background.jsx":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(module) {
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _index = __webpack_require__("./node_modules/redbox-react/lib/index.js");
+
+var _index2 = _interopRequireDefault(_index);
+
+var _index3 = __webpack_require__("./node_modules/react-transform-catch-errors/lib/index.js");
+
+var _index4 = _interopRequireDefault(_index3);
+
+var _react2 = __webpack_require__("./node_modules/react/index.js");
+
+var _react3 = _interopRequireDefault(_react2);
+
+var _index5 = __webpack_require__("./node_modules/react-transform-hmr/lib/index.js");
+
+var _index6 = _interopRequireDefault(_index5);
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _templateObject = _taggedTemplateLiteral(['\n    display: flex;\n    background-image: url("', '");\n    background-size: cover;\n    background-position: center center;\n    background-repeat: no-repeat;\n   '], ['\n    display: flex;\n    background-image: url("', '");\n    background-size: cover;\n    background-position: center center;\n    background-repeat: no-repeat;\n   ']),
+    _templateObject2 = _taggedTemplateLiteral(['\n    background-color: rgba(0, 0, 0, ', ');\n    width: 100%;\n    height: 100%;\n   '], ['\n    background-color: rgba(0, 0, 0, ', ');\n    width: 100%;\n    height: 100%;\n   ']);
+
+var _styledComponents = __webpack_require__("./node_modules/styled-components/dist/styled-components.es.js");
+
+var _styledComponents2 = _interopRequireDefault(_styledComponents);
+
+var _reactYoutubeBackground = __webpack_require__("./node_modules/react-youtube-background/build/index.js");
+
+var _reactYoutubeBackground2 = _interopRequireDefault(_reactYoutubeBackground);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var _components = {
+  Background: {
+    displayName: 'Background'
+  }
+};
+
+var _projectNode_modulesReactTransformHmrLibIndexJs2 = (0, _index6.default)({
+  filename: '/project/src/js/components/Background.jsx',
+  components: _components,
+  locals: [module],
+  imports: [_react3.default]
+});
+
+var _projectNode_modulesReactTransformCatchErrorsLibIndexJs2 = (0, _index4.default)({
+  filename: '/project/src/js/components/Background.jsx',
+  components: _components,
+  locals: [],
+  imports: [_react3.default, _index2.default]
+});
+
+function _wrapComponent(id) {
+  return function (Component) {
+    return _projectNode_modulesReactTransformHmrLibIndexJs2(_projectNode_modulesReactTransformCatchErrorsLibIndexJs2(Component, id), id);
+  };
+}
+
+var Background = _wrapComponent('Background')(function (_Component) {
+  _inherits(Background, _Component);
+
+  function Background() {
+    _classCallCheck(this, Background);
+
+    return _possibleConstructorReturn(this, (Background.__proto__ || Object.getPrototypeOf(Background)).apply(this, arguments));
+  }
+
+  _createClass(Background, [{
+    key: 'render',
+    value: function render() {
+      var BackgroundImage = _styledComponents2.default.div(_templateObject, this.props.data.background_image);
+      var BackgroundOverlay = _styledComponents2.default.div(_templateObject2, this.props.data.overlay_opacity);
+
+      return this.props.data.background_video ? _react3.default.createElement(
+        _reactYoutubeBackground2.default,
+        {
+          videoId: this.props.data.background_video,
+          overlay: 'rgba(0, 0, 0, ' + this.props.data.overlay_opacity + ')'
+        },
+        this.props.children
+      ) : _react3.default.createElement(
+        BackgroundImage,
+        null,
+        _react3.default.createElement(
+          BackgroundOverlay,
+          null,
+          this.props.children
+        )
+      );
+    }
+  }]);
+
+  return Background;
+}(_react2.Component));
+
+exports.default = Background;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__("./node_modules/webpack/buildin/module.js")(module)))
 
 /***/ }),
@@ -31426,15 +31377,15 @@ var _components = {
   }
 };
 
-var _CUsersRmorrDesktopStreamerTemplateNode_modulesReactTransformHmrLibIndexJs2 = (0, _index6.default)({
-  filename: 'C:/Users/rmorr/Desktop/streamer-template/src/js/components/Brand.jsx',
+var _projectNode_modulesReactTransformHmrLibIndexJs2 = (0, _index6.default)({
+  filename: '/project/src/js/components/Brand.jsx',
   components: _components,
   locals: [module],
   imports: [_react3.default]
 });
 
-var _CUsersRmorrDesktopStreamerTemplateNode_modulesReactTransformCatchErrorsLibIndexJs2 = (0, _index4.default)({
-  filename: 'C:/Users/rmorr/Desktop/streamer-template/src/js/components/Brand.jsx',
+var _projectNode_modulesReactTransformCatchErrorsLibIndexJs2 = (0, _index4.default)({
+  filename: '/project/src/js/components/Brand.jsx',
   components: _components,
   locals: [],
   imports: [_react3.default, _index2.default]
@@ -31442,7 +31393,7 @@ var _CUsersRmorrDesktopStreamerTemplateNode_modulesReactTransformCatchErrorsLibI
 
 function _wrapComponent(id) {
   return function (Component) {
-    return _CUsersRmorrDesktopStreamerTemplateNode_modulesReactTransformHmrLibIndexJs2(_CUsersRmorrDesktopStreamerTemplateNode_modulesReactTransformCatchErrorsLibIndexJs2(Component, id), id);
+    return _projectNode_modulesReactTransformHmrLibIndexJs2(_projectNode_modulesReactTransformCatchErrorsLibIndexJs2(Component, id), id);
   };
 }
 
@@ -31541,15 +31492,15 @@ var _components = {
   }
 };
 
-var _CUsersRmorrDesktopStreamerTemplateNode_modulesReactTransformHmrLibIndexJs2 = (0, _index6.default)({
-  filename: 'C:/Users/rmorr/Desktop/streamer-template/src/js/components/Category.jsx',
+var _projectNode_modulesReactTransformHmrLibIndexJs2 = (0, _index6.default)({
+  filename: '/project/src/js/components/Category.jsx',
   components: _components,
   locals: [module],
   imports: [_react3.default]
 });
 
-var _CUsersRmorrDesktopStreamerTemplateNode_modulesReactTransformCatchErrorsLibIndexJs2 = (0, _index4.default)({
-  filename: 'C:/Users/rmorr/Desktop/streamer-template/src/js/components/Category.jsx',
+var _projectNode_modulesReactTransformCatchErrorsLibIndexJs2 = (0, _index4.default)({
+  filename: '/project/src/js/components/Category.jsx',
   components: _components,
   locals: [],
   imports: [_react3.default, _index2.default]
@@ -31557,7 +31508,7 @@ var _CUsersRmorrDesktopStreamerTemplateNode_modulesReactTransformCatchErrorsLibI
 
 function _wrapComponent(id) {
   return function (Component) {
-    return _CUsersRmorrDesktopStreamerTemplateNode_modulesReactTransformHmrLibIndexJs2(_CUsersRmorrDesktopStreamerTemplateNode_modulesReactTransformCatchErrorsLibIndexJs2(Component, id), id);
+    return _projectNode_modulesReactTransformHmrLibIndexJs2(_projectNode_modulesReactTransformCatchErrorsLibIndexJs2(Component, id), id);
   };
 }
 
@@ -31652,15 +31603,15 @@ var _components = {
   }
 };
 
-var _CUsersRmorrDesktopStreamerTemplateNode_modulesReactTransformHmrLibIndexJs2 = (0, _index6.default)({
-  filename: 'C:/Users/rmorr/Desktop/streamer-template/src/js/components/ChannelLink.jsx',
+var _projectNode_modulesReactTransformHmrLibIndexJs2 = (0, _index6.default)({
+  filename: '/project/src/js/components/ChannelLink.jsx',
   components: _components,
   locals: [module],
   imports: [_react3.default]
 });
 
-var _CUsersRmorrDesktopStreamerTemplateNode_modulesReactTransformCatchErrorsLibIndexJs2 = (0, _index4.default)({
-  filename: 'C:/Users/rmorr/Desktop/streamer-template/src/js/components/ChannelLink.jsx',
+var _projectNode_modulesReactTransformCatchErrorsLibIndexJs2 = (0, _index4.default)({
+  filename: '/project/src/js/components/ChannelLink.jsx',
   components: _components,
   locals: [],
   imports: [_react3.default, _index2.default]
@@ -31668,7 +31619,7 @@ var _CUsersRmorrDesktopStreamerTemplateNode_modulesReactTransformCatchErrorsLibI
 
 function _wrapComponent(id) {
   return function (Component) {
-    return _CUsersRmorrDesktopStreamerTemplateNode_modulesReactTransformHmrLibIndexJs2(_CUsersRmorrDesktopStreamerTemplateNode_modulesReactTransformCatchErrorsLibIndexJs2(Component, id), id);
+    return _projectNode_modulesReactTransformHmrLibIndexJs2(_projectNode_modulesReactTransformCatchErrorsLibIndexJs2(Component, id), id);
   };
 }
 
@@ -31799,15 +31750,15 @@ var _components = {
   }
 };
 
-var _CUsersRmorrDesktopStreamerTemplateNode_modulesReactTransformHmrLibIndexJs2 = (0, _index6.default)({
-  filename: 'C:/Users/rmorr/Desktop/streamer-template/src/js/components/Divider.jsx',
+var _projectNode_modulesReactTransformHmrLibIndexJs2 = (0, _index6.default)({
+  filename: '/project/src/js/components/Divider.jsx',
   components: _components,
   locals: [module],
   imports: [_react3.default]
 });
 
-var _CUsersRmorrDesktopStreamerTemplateNode_modulesReactTransformCatchErrorsLibIndexJs2 = (0, _index4.default)({
-  filename: 'C:/Users/rmorr/Desktop/streamer-template/src/js/components/Divider.jsx',
+var _projectNode_modulesReactTransformCatchErrorsLibIndexJs2 = (0, _index4.default)({
+  filename: '/project/src/js/components/Divider.jsx',
   components: _components,
   locals: [],
   imports: [_react3.default, _index2.default]
@@ -31815,7 +31766,7 @@ var _CUsersRmorrDesktopStreamerTemplateNode_modulesReactTransformCatchErrorsLibI
 
 function _wrapComponent(id) {
   return function (Component) {
-    return _CUsersRmorrDesktopStreamerTemplateNode_modulesReactTransformHmrLibIndexJs2(_CUsersRmorrDesktopStreamerTemplateNode_modulesReactTransformCatchErrorsLibIndexJs2(Component, id), id);
+    return _projectNode_modulesReactTransformHmrLibIndexJs2(_projectNode_modulesReactTransformCatchErrorsLibIndexJs2(Component, id), id);
   };
 }
 
@@ -31903,15 +31854,15 @@ var _components = {
   }
 };
 
-var _CUsersRmorrDesktopStreamerTemplateNode_modulesReactTransformHmrLibIndexJs2 = (0, _index6.default)({
-  filename: 'C:/Users/rmorr/Desktop/streamer-template/src/js/components/Footer.jsx',
+var _projectNode_modulesReactTransformHmrLibIndexJs2 = (0, _index6.default)({
+  filename: '/project/src/js/components/Footer.jsx',
   components: _components,
   locals: [module],
   imports: [_react3.default]
 });
 
-var _CUsersRmorrDesktopStreamerTemplateNode_modulesReactTransformCatchErrorsLibIndexJs2 = (0, _index4.default)({
-  filename: 'C:/Users/rmorr/Desktop/streamer-template/src/js/components/Footer.jsx',
+var _projectNode_modulesReactTransformCatchErrorsLibIndexJs2 = (0, _index4.default)({
+  filename: '/project/src/js/components/Footer.jsx',
   components: _components,
   locals: [],
   imports: [_react3.default, _index2.default]
@@ -31919,7 +31870,7 @@ var _CUsersRmorrDesktopStreamerTemplateNode_modulesReactTransformCatchErrorsLibI
 
 function _wrapComponent(id) {
   return function (Component) {
-    return _CUsersRmorrDesktopStreamerTemplateNode_modulesReactTransformHmrLibIndexJs2(_CUsersRmorrDesktopStreamerTemplateNode_modulesReactTransformCatchErrorsLibIndexJs2(Component, id), id);
+    return _projectNode_modulesReactTransformHmrLibIndexJs2(_projectNode_modulesReactTransformCatchErrorsLibIndexJs2(Component, id), id);
   };
 }
 
@@ -32041,15 +31992,15 @@ var _components = {
   }
 };
 
-var _CUsersRmorrDesktopStreamerTemplateNode_modulesReactTransformHmrLibIndexJs2 = (0, _index6.default)({
-  filename: 'C:/Users/rmorr/Desktop/streamer-template/src/js/components/Header.jsx',
+var _projectNode_modulesReactTransformHmrLibIndexJs2 = (0, _index6.default)({
+  filename: '/project/src/js/components/Header.jsx',
   components: _components,
   locals: [module],
   imports: [_react3.default]
 });
 
-var _CUsersRmorrDesktopStreamerTemplateNode_modulesReactTransformCatchErrorsLibIndexJs2 = (0, _index4.default)({
-  filename: 'C:/Users/rmorr/Desktop/streamer-template/src/js/components/Header.jsx',
+var _projectNode_modulesReactTransformCatchErrorsLibIndexJs2 = (0, _index4.default)({
+  filename: '/project/src/js/components/Header.jsx',
   components: _components,
   locals: [],
   imports: [_react3.default, _index2.default]
@@ -32057,7 +32008,7 @@ var _CUsersRmorrDesktopStreamerTemplateNode_modulesReactTransformCatchErrorsLibI
 
 function _wrapComponent(id) {
   return function (Component) {
-    return _CUsersRmorrDesktopStreamerTemplateNode_modulesReactTransformHmrLibIndexJs2(_CUsersRmorrDesktopStreamerTemplateNode_modulesReactTransformCatchErrorsLibIndexJs2(Component, id), id);
+    return _projectNode_modulesReactTransformHmrLibIndexJs2(_projectNode_modulesReactTransformCatchErrorsLibIndexJs2(Component, id), id);
   };
 }
 
@@ -32169,15 +32120,15 @@ var _components = {
   }
 };
 
-var _CUsersRmorrDesktopStreamerTemplateNode_modulesReactTransformHmrLibIndexJs2 = (0, _index6.default)({
-  filename: 'C:/Users/rmorr/Desktop/streamer-template/src/js/components/Hero.jsx',
+var _projectNode_modulesReactTransformHmrLibIndexJs2 = (0, _index6.default)({
+  filename: '/project/src/js/components/Hero.jsx',
   components: _components,
   locals: [module],
   imports: [_react3.default]
 });
 
-var _CUsersRmorrDesktopStreamerTemplateNode_modulesReactTransformCatchErrorsLibIndexJs2 = (0, _index4.default)({
-  filename: 'C:/Users/rmorr/Desktop/streamer-template/src/js/components/Hero.jsx',
+var _projectNode_modulesReactTransformCatchErrorsLibIndexJs2 = (0, _index4.default)({
+  filename: '/project/src/js/components/Hero.jsx',
   components: _components,
   locals: [],
   imports: [_react3.default, _index2.default]
@@ -32185,7 +32136,7 @@ var _CUsersRmorrDesktopStreamerTemplateNode_modulesReactTransformCatchErrorsLibI
 
 function _wrapComponent(id) {
   return function (Component) {
-    return _CUsersRmorrDesktopStreamerTemplateNode_modulesReactTransformHmrLibIndexJs2(_CUsersRmorrDesktopStreamerTemplateNode_modulesReactTransformCatchErrorsLibIndexJs2(Component, id), id);
+    return _projectNode_modulesReactTransformHmrLibIndexJs2(_projectNode_modulesReactTransformCatchErrorsLibIndexJs2(Component, id), id);
   };
 }
 
@@ -32288,15 +32239,15 @@ var _components = {
   }
 };
 
-var _CUsersRmorrDesktopStreamerTemplateNode_modulesReactTransformHmrLibIndexJs2 = (0, _index6.default)({
-  filename: 'C:/Users/rmorr/Desktop/streamer-template/src/js/components/SocialNetworks.jsx',
+var _projectNode_modulesReactTransformHmrLibIndexJs2 = (0, _index6.default)({
+  filename: '/project/src/js/components/SocialNetworks.jsx',
   components: _components,
   locals: [module],
   imports: [_react3.default]
 });
 
-var _CUsersRmorrDesktopStreamerTemplateNode_modulesReactTransformCatchErrorsLibIndexJs2 = (0, _index4.default)({
-  filename: 'C:/Users/rmorr/Desktop/streamer-template/src/js/components/SocialNetworks.jsx',
+var _projectNode_modulesReactTransformCatchErrorsLibIndexJs2 = (0, _index4.default)({
+  filename: '/project/src/js/components/SocialNetworks.jsx',
   components: _components,
   locals: [],
   imports: [_react3.default, _index2.default]
@@ -32304,7 +32255,7 @@ var _CUsersRmorrDesktopStreamerTemplateNode_modulesReactTransformCatchErrorsLibI
 
 function _wrapComponent(id) {
   return function (Component) {
-    return _CUsersRmorrDesktopStreamerTemplateNode_modulesReactTransformHmrLibIndexJs2(_CUsersRmorrDesktopStreamerTemplateNode_modulesReactTransformCatchErrorsLibIndexJs2(Component, id), id);
+    return _projectNode_modulesReactTransformHmrLibIndexJs2(_projectNode_modulesReactTransformCatchErrorsLibIndexJs2(Component, id), id);
   };
 }
 
@@ -32537,15 +32488,15 @@ var _components = {
   }
 };
 
-var _CUsersRmorrDesktopStreamerTemplateNode_modulesReactTransformHmrLibIndexJs2 = (0, _index6.default)({
-  filename: 'C:/Users/rmorr/Desktop/streamer-template/src/js/components/Stats.jsx',
+var _projectNode_modulesReactTransformHmrLibIndexJs2 = (0, _index6.default)({
+  filename: '/project/src/js/components/Stats.jsx',
   components: _components,
   locals: [module],
   imports: [_react3.default]
 });
 
-var _CUsersRmorrDesktopStreamerTemplateNode_modulesReactTransformCatchErrorsLibIndexJs2 = (0, _index4.default)({
-  filename: 'C:/Users/rmorr/Desktop/streamer-template/src/js/components/Stats.jsx',
+var _projectNode_modulesReactTransformCatchErrorsLibIndexJs2 = (0, _index4.default)({
+  filename: '/project/src/js/components/Stats.jsx',
   components: _components,
   locals: [],
   imports: [_react3.default, _index2.default]
@@ -32553,7 +32504,7 @@ var _CUsersRmorrDesktopStreamerTemplateNode_modulesReactTransformCatchErrorsLibI
 
 function _wrapComponent(id) {
   return function (Component) {
-    return _CUsersRmorrDesktopStreamerTemplateNode_modulesReactTransformHmrLibIndexJs2(_CUsersRmorrDesktopStreamerTemplateNode_modulesReactTransformCatchErrorsLibIndexJs2(Component, id), id);
+    return _projectNode_modulesReactTransformHmrLibIndexJs2(_projectNode_modulesReactTransformCatchErrorsLibIndexJs2(Component, id), id);
   };
 }
 
@@ -32658,15 +32609,15 @@ var _components = {
   }
 };
 
-var _CUsersRmorrDesktopStreamerTemplateNode_modulesReactTransformHmrLibIndexJs2 = (0, _index6.default)({
-  filename: 'C:/Users/rmorr/Desktop/streamer-template/src/js/components/Status.jsx',
+var _projectNode_modulesReactTransformHmrLibIndexJs2 = (0, _index6.default)({
+  filename: '/project/src/js/components/Status.jsx',
   components: _components,
   locals: [module],
   imports: [_react3.default]
 });
 
-var _CUsersRmorrDesktopStreamerTemplateNode_modulesReactTransformCatchErrorsLibIndexJs2 = (0, _index4.default)({
-  filename: 'C:/Users/rmorr/Desktop/streamer-template/src/js/components/Status.jsx',
+var _projectNode_modulesReactTransformCatchErrorsLibIndexJs2 = (0, _index4.default)({
+  filename: '/project/src/js/components/Status.jsx',
   components: _components,
   locals: [],
   imports: [_react3.default, _index2.default]
@@ -32674,7 +32625,7 @@ var _CUsersRmorrDesktopStreamerTemplateNode_modulesReactTransformCatchErrorsLibI
 
 function _wrapComponent(id) {
   return function (Component) {
-    return _CUsersRmorrDesktopStreamerTemplateNode_modulesReactTransformHmrLibIndexJs2(_CUsersRmorrDesktopStreamerTemplateNode_modulesReactTransformCatchErrorsLibIndexJs2(Component, id), id);
+    return _projectNode_modulesReactTransformHmrLibIndexJs2(_projectNode_modulesReactTransformCatchErrorsLibIndexJs2(Component, id), id);
   };
 }
 
@@ -32769,15 +32720,15 @@ var _components = {
   }
 };
 
-var _CUsersRmorrDesktopStreamerTemplateNode_modulesReactTransformHmrLibIndexJs2 = (0, _index6.default)({
-  filename: 'C:/Users/rmorr/Desktop/streamer-template/src/js/components/StreamTitle.jsx',
+var _projectNode_modulesReactTransformHmrLibIndexJs2 = (0, _index6.default)({
+  filename: '/project/src/js/components/StreamTitle.jsx',
   components: _components,
   locals: [module],
   imports: [_react3.default]
 });
 
-var _CUsersRmorrDesktopStreamerTemplateNode_modulesReactTransformCatchErrorsLibIndexJs2 = (0, _index4.default)({
-  filename: 'C:/Users/rmorr/Desktop/streamer-template/src/js/components/StreamTitle.jsx',
+var _projectNode_modulesReactTransformCatchErrorsLibIndexJs2 = (0, _index4.default)({
+  filename: '/project/src/js/components/StreamTitle.jsx',
   components: _components,
   locals: [],
   imports: [_react3.default, _index2.default]
@@ -32785,7 +32736,7 @@ var _CUsersRmorrDesktopStreamerTemplateNode_modulesReactTransformCatchErrorsLibI
 
 function _wrapComponent(id) {
   return function (Component) {
-    return _CUsersRmorrDesktopStreamerTemplateNode_modulesReactTransformHmrLibIndexJs2(_CUsersRmorrDesktopStreamerTemplateNode_modulesReactTransformCatchErrorsLibIndexJs2(Component, id), id);
+    return _projectNode_modulesReactTransformHmrLibIndexJs2(_projectNode_modulesReactTransformCatchErrorsLibIndexJs2(Component, id), id);
   };
 }
 
