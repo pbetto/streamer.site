@@ -32,11 +32,6 @@ class Background extends Component {
       </BackgroundImage>
     ))
   }
-
-  onReady(event) {
-    event.target.seekTo(this.props.data.background_start)
-    event.target.playVideo();
-  }
 }
 
 export default Background;
