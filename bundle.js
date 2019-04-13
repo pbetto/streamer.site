@@ -32320,6 +32320,11 @@ var SocialNetworks = _wrapComponent('SocialNetworks')(function (_Component) {
           _extends({}, this.props, { href: this.props.data.donation_link }),
           _react3.default.createElement(_reactFontawesome2.default, { icon: _fontawesomeFreeSolid.faDollarSign })
         ),
+        this.props.data.planning_link && _react3.default.createElement(
+          Social,
+          _extends({}, this.props, { href: this.props.data.planning_link }),
+          _react3.default.createElement(_reactFontawesome2.default, { icon: _fontawesomeFreeSolid.faCalendarAlt })
+        ),
         this.props.data.instagram && _react3.default.createElement(
           Social,
           _extends({}, this.props, { href: '//www.instagram.com/' + this.props.data.instagram }),
