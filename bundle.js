@@ -3239,7 +3239,7 @@ function perform(mutations, callback) {
 
 function disableObservation(operation) {
   operation();
-  
+
 }
 
 var styleParser = function (node) {
@@ -24673,7 +24673,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    for (var i=0; i < lines.length; i++) {
 	      line = lines[i];
 	      if ( opts && opts.filter && !opts.filter(line) ) continue;
-	      
+
 	      fields = line.match(regex);
 	      if (fields && fields.length === expected_fields) {
 	        rows[i] = fields;
@@ -24697,12 +24697,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  var isFirefox = function() {
 	    return navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
-	  };  
+	  };
 
 	  var isSafari = function() {
 	    return navigator.userAgent.toLowerCase().indexOf('safari') > -1;
 	  };
-			
+
 	  var isIE11Plus = function() {
 	   	return document.documentMode && document.documentMode >= 11;
 	  };
@@ -27162,7 +27162,7 @@ function hyphenateStyleName(string) {
 
 var hyphenateStyleName_1 = hyphenateStyleName;
 
-//      
+//
 var objToCss = function objToCss(obj, prevKey) {
   var css = Object.keys(obj).filter(function (key) {
     var chunk = obj[key];
@@ -27196,7 +27196,7 @@ var flatten = function flatten(chunks, executionContext) {
   }, []);
 };
 
-//      
+//
 var stylis = new __WEBPACK_IMPORTED_MODULE_1_stylis___default.a({
   global: false,
   cascade: true,
@@ -27214,7 +27214,7 @@ var stringifyRules = function stringifyRules(rules, selector, prefix) {
   return stylis(prefix || !selector ? '' : selector, cssStr);
 };
 
-//      
+//
 var chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 var charsLength = chars.length;
 
@@ -27230,7 +27230,7 @@ var generateAlphabeticName = function generateAlphabeticName(code) {
   return chars[x % charsLength] + name;
 };
 
-//      
+//
 
 
 var interleave = (function (strings, interpolations) {
@@ -27239,7 +27239,7 @@ var interleave = (function (strings, interpolations) {
   }, [strings[0]]);
 });
 
-//      
+//
 var css = (function (strings) {
   for (var _len = arguments.length, interpolations = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
     interpolations[_key - 1] = arguments[_key];
@@ -27248,7 +27248,7 @@ var css = (function (strings) {
   return flatten(interleave(strings, interpolations));
 });
 
-//      
+//
 var SC_COMPONENT_ID = /^[^\S\n]*?\/\* sc-component-id:\s+(\S+)\s+\*\//mg;
 
 var extractCompsFromCSS = (function (maybeCSS) {
@@ -27268,7 +27268,7 @@ var extractCompsFromCSS = (function (maybeCSS) {
   });
 });
 
-//      
+//
 /* eslint-disable camelcase, no-undef */
 
 var getNonce = (function () {
@@ -27365,7 +27365,7 @@ var possibleConstructorReturn = function (self, call) {
   return call && (typeof call === "object" || typeof call === "function") ? call : self;
 };
 
-//      
+//
 /* eslint-disable no-underscore-dangle */
 /*
  * Browser Style Sheet with Rehydration
@@ -27523,7 +27523,7 @@ var BrowserStyleSheet = {
   }
 };
 
-//      
+//
 var SC_ATTR = 'data-styled-components';
 var LOCAL_ATTR = 'data-styled-components-is-local';
 var CONTEXT_KEY = '__styled-components-stylesheet__';
@@ -27694,7 +27694,7 @@ var StyleSheet = function () {
 
 var _StyleSheetManager$ch;
 
-//      
+//
 var StyleSheetManager = function (_Component) {
   inherits(StyleSheetManager, _Component);
 
@@ -27726,7 +27726,7 @@ StyleSheetManager.propTypes = {
   sheet: __WEBPACK_IMPORTED_MODULE_3_prop_types___default.a.oneOfType([__WEBPACK_IMPORTED_MODULE_3_prop_types___default.a.instanceOf(StyleSheet), __WEBPACK_IMPORTED_MODULE_3_prop_types___default.a.instanceOf(ServerStyleSheet)]).isRequired
 };
 
-//      
+//
 /* eslint-disable no-underscore-dangle */
 var ServerTag = function () {
   function ServerTag(isLocal) {
@@ -27856,7 +27856,7 @@ var ServerStyleSheet = function () {
   return ServerStyleSheet;
 }();
 
-//      
+//
 
 var LIMIT = 200;
 
@@ -27878,7 +27878,7 @@ var createWarnTooManyClasses = (function (displayName) {
   };
 });
 
-//      
+//
 /* Trying to avoid the unknown-prop errors on styled components
  by filtering by React's attribute whitelist.
  */
@@ -28473,28 +28473,28 @@ var validAttr = (function (name) {
   return hasOwnProperty.call(htmlProps, name) || hasOwnProperty.call(svgProps, name) || isCustomAttribute(name.toLowerCase()) || hasOwnProperty.call(reactProps, name);
 });
 
-//      
+//
 
 
 function isTag(target) /* : %checks */{
   return typeof target === 'string';
 }
 
-//      
+//
 
 
 function isStyledComponent(target) /* : %checks */{
   return typeof target === 'function' && typeof target.styledComponentId === 'string';
 }
 
-//      
+//
 
 /* eslint-disable no-undef */
 function getComponentName(target) {
   return target.displayName || target.name || 'Component';
 }
 
-//      
+//
 
 
 var determineTheme = (function (props, fallbackTheme, defaultProps) {
@@ -28509,7 +28509,7 @@ var determineTheme = (function (props, fallbackTheme, defaultProps) {
   return theme;
 });
 
-//      
+//
 /**
  * Creates a broadcast that can be listened to, i.e. simple event emitter
  *
@@ -28551,7 +28551,7 @@ var createBroadcast = function createBroadcast(initialState) {
   return { publish: publish, subscribe: subscribe, unsubscribe: unsubscribe };
 };
 
-//      
+//
 // Helper to call a given function, only once
 var once = (function (cb) {
   var called = false;
@@ -28567,7 +28567,7 @@ var once = (function (cb) {
 var _ThemeProvider$childC;
 var _ThemeProvider$contex;
 
-//      
+//
 /* globals React$Element */
 // NOTE: DO NOT CHANGE, changing this is a semver major change!
 var CHANNEL = '__styled-components__';
@@ -28676,7 +28676,7 @@ var ThemeProvider = function (_Component) {
 ThemeProvider.childContextTypes = (_ThemeProvider$childC = {}, _ThemeProvider$childC[CHANNEL] = __WEBPACK_IMPORTED_MODULE_3_prop_types___default.a.func, _ThemeProvider$childC[CHANNEL_NEXT] = CONTEXT_CHANNEL_SHAPE, _ThemeProvider$childC);
 ThemeProvider.contextTypes = (_ThemeProvider$contex = {}, _ThemeProvider$contex[CHANNEL_NEXT] = CONTEXT_CHANNEL_SHAPE, _ThemeProvider$contex);
 
-//      
+//
 
 var escapeRegex = /[[\].#*$><+~=|^:(),"'`]/g;
 var multiDashRegex = /--+/g;
@@ -29011,7 +29011,7 @@ function Umul32(n, m) {
   return res;
 }
 
-//      
+//
 var isStaticRules = function isStaticRules(rules, attrs) {
   for (var i = 0; i < rules.length; i += 1) {
     var rule = rules[i];
@@ -29111,7 +29111,7 @@ var _ComponentStyle = (function (nameGenerator, flatten, stringifyRules) {
   return ComponentStyle;
 });
 
-//      
+//
 // Thanks to ReactDOMFactories for this handy list!
 
 var domElements = ['a', 'abbr', 'address', 'area', 'article', 'aside', 'audio', 'b', 'base', 'bdi', 'bdo', 'big', 'blockquote', 'body', 'br', 'button', 'canvas', 'caption', 'cite', 'code', 'col', 'colgroup', 'data', 'datalist', 'dd', 'del', 'details', 'dfn', 'dialog', 'div', 'dl', 'dt', 'em', 'embed', 'fieldset', 'figcaption', 'figure', 'footer', 'form', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'head', 'header', 'hgroup', 'hr', 'html', 'i', 'iframe', 'img', 'input', 'ins', 'kbd', 'keygen', 'label', 'legend', 'li', 'link', 'main', 'map', 'mark', 'marquee', 'menu', 'menuitem', 'meta', 'meter', 'nav', 'noscript', 'object', 'ol', 'optgroup', 'option', 'output', 'p', 'param', 'picture', 'pre', 'progress', 'q', 'rp', 'rt', 'ruby', 's', 'samp', 'script', 'section', 'select', 'small', 'source', 'span', 'strong', 'style', 'sub', 'summary', 'sup', 'table', 'tbody', 'td', 'textarea', 'tfoot', 'th', 'thead', 'time', 'title', 'tr', 'track', 'u', 'ul', 'var', 'video', 'wbr',
@@ -29119,7 +29119,7 @@ var domElements = ['a', 'abbr', 'address', 'area', 'article', 'aside', 'audio', 
 // SVG
 'circle', 'clipPath', 'defs', 'ellipse', 'g', 'image', 'line', 'linearGradient', 'mask', 'path', 'pattern', 'polygon', 'polyline', 'radialGradient', 'rect', 'stop', 'svg', 'text', 'tspan'];
 
-//      
+//
 
 var _styled = (function (styledComponent, constructWithOptions) {
   var styled = function styled(tag) {
@@ -29134,7 +29134,7 @@ var _styled = (function (styledComponent, constructWithOptions) {
   return styled;
 });
 
-//      
+//
 var replaceWhitespace = function replaceWhitespace(str) {
   return str.replace(/\s|\\n/g, '');
 };
@@ -29160,7 +29160,7 @@ var _keyframes = (function (nameGenerator, stringifyRules, css) {
   };
 });
 
-//      
+//
 var _injectGlobal = (function (stringifyRules, css) {
   var injectGlobal = function injectGlobal(strings) {
     for (var _len = arguments.length, interpolations = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
@@ -29179,7 +29179,7 @@ var _injectGlobal = (function (stringifyRules, css) {
   return injectGlobal;
 });
 
-//      
+//
 
 
 var _constructWithOptions = (function (css) {
@@ -29215,7 +29215,7 @@ var _constructWithOptions = (function (css) {
   return constructWithOptions;
 });
 
-//      
+//
 /* globals ReactClass */
 
 var wrapWithTheme = function wrapWithTheme(Component$$1) {
@@ -29306,7 +29306,7 @@ var wrapWithTheme = function wrapWithTheme(Component$$1) {
   return __WEBPACK_IMPORTED_MODULE_5_hoist_non_react_statics___default()(WithTheme, Component$$1);
 };
 
-//      
+//
 
 /* Import singletons */
 /* Import singleton constructors */
@@ -32290,15 +32290,15 @@ var SocialNetworks = _wrapComponent('SocialNetworks')(function (_Component) {
           _extends({}, this.props, { href: 'mailto:' + this.props.data.email }),
           _react3.default.createElement(_reactFontawesome2.default, { icon: _fontawesomeFreeSolid.faEnvelope })
         ),
-        this.props.data.merch_link && _react3.default.createElement(
-          Social,
-          _extends({}, this.props, { href: this.props.data.merch_link }),
-          _react3.default.createElement(_reactFontawesome2.default, { icon: _fontawesomeFreeSolid.faShoppingCart })
-        ),
         this.props.data.twitter && _react3.default.createElement(
           Social,
           _extends({}, this.props, { href: '//www.twitter.com/' + this.props.data.twitter }),
           _react3.default.createElement(_reactFontawesome2.default, { icon: _fontawesomeFreeBrands.faTwitter })
+        ),
+        this.props.data.instagram && _react3.default.createElement(
+          Social,
+          _extends({}, this.props, { href: '//www.instagram.com/' + this.props.data.instagram }),
+          _react3.default.createElement(_reactFontawesome2.default, { icon: _fontawesomeFreeBrands.faInstagram })
         ),
         this.props.data.youtube && _react3.default.createElement(
           Social,
@@ -32315,6 +32315,11 @@ var SocialNetworks = _wrapComponent('SocialNetworks')(function (_Component) {
           _extends({}, this.props, { href: '//www.discord.gg/' + this.props.data.discord }),
           _react3.default.createElement(_reactFontawesome2.default, { icon: _fontawesomeFreeBrands.faDiscord })
         ),
+        this.props.data.merch_link && _react3.default.createElement(
+          Social,
+          _extends({}, this.props, { href: this.props.data.merch_link }),
+          _react3.default.createElement(_reactFontawesome2.default, { icon: _fontawesomeFreeSolid.faShoppingCart })
+        ),
         this.props.data.donation_link && _react3.default.createElement(
           Social,
           _extends({}, this.props, { href: this.props.data.donation_link }),
@@ -32324,11 +32329,6 @@ var SocialNetworks = _wrapComponent('SocialNetworks')(function (_Component) {
           Social,
           _extends({}, this.props, { href: this.props.data.planning_link }),
           _react3.default.createElement(_reactFontawesome2.default, { icon: _fontawesomeFreeSolid.faCalendarAlt })
-        ),
-        this.props.data.instagram && _react3.default.createElement(
-          Social,
-          _extends({}, this.props, { href: '//www.instagram.com/' + this.props.data.instagram }),
-          _react3.default.createElement(_reactFontawesome2.default, { icon: _fontawesomeFreeBrands.faInstagram })
         ),
         this.props.data.snapchat && _react3.default.createElement(
           Social,
