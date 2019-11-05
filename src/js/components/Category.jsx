@@ -16,7 +16,7 @@ class Category extends Component {
     ) : (
       <Subtitle {...this.props}>
         <FontAwesomeIcon icon={faGamepad} style={{ color: 'white', marginRight: '5px' }} />
-        {this.props.stream.stream.game}
+        {this.props.stream[0].game_id}
       </Subtitle>
     );
   }

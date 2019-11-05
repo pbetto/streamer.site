@@ -17,25 +17,25 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      url: 'https://api.twitch.tv/kraken/',
+      url: 'https://api.twitch.tv/helix/',
       streamInfo: [],
-      channelInfo: [],
+      userInfo: [],
     };
   }
   async componentDidMount() {
     await config.init();
     const data = config.get();
     axios
-      .get(`${this.state.url}streams/${data.twitch_channel}`, {
+      .get(`${this.state.url}streams?user_login=${data.twitch_channel}`, {
         headers: { 'Client-ID': data.api_key },
       })
-      .then(res => this.setState({ streamInfo: res.data }))
+      .then(res => this.setState({ streamInfo: res.data.data }))
       .catch(err => console.log(`Unable to fetch Twitch API ${err}`));
     axios
-      .get(`${this.state.url}channels/${data.twitch_channel}`, {
+      .get(`${this.state.url}users?login=${data.twitch_channel}`, {
         headers: { 'Client-ID': data.api_key },
       })
-      .then(res => this.setState({ channelInfo: res.data }))
+      .then(res => this.setState({ userInfo: res.data.data[0] }))
       .catch(err => console.log(`Unable to fetch Twitch API ${err}`));
     document.title = `${data.twitch_channel} - ${data.site_title}`;
   }
@@ -72,7 +72,7 @@ class App extends Component {
       <Background data={data}>
         <Content>
           <Header data={data} stream={this.state.streamInfo} />
-          <Hero data={data} channel={this.state.channelInfo} stream={this.state.streamInfo} />
+          <Hero data={data} user={this.state.userInfo} stream={this.state.streamInfo} />
           <Footer data={data} />
         </Content>
       </Background>

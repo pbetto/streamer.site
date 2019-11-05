@@ -22,11 +22,11 @@ class Stats extends Component {
       <StatsDiv>
         <StatItem {...this.props}>
           <FontAwesomeIcon icon={faEye} style={{ marginRight: '5px' }} />
-          {this.props.channel.views && this.props.channel.views.toLocaleString()}
+          {this.props.user.view_count && this.props.user.view_count.toLocaleString()}
         </StatItem>
         <StatItem {...this.props}>
           <FontAwesomeIcon icon={faUsers} style={{ marginRight: '5px' }} />
-          {this.props.channel.followers && this.props.channel.followers.toLocaleString()}
+          {this.props.followers && this.props.followers.total.toLocaleString()}
         </StatItem>
       </StatsDiv>
     );

@@ -11,7 +11,7 @@ const Hr = styled.hr`
 
 class Divider extends Component {
   render() {
-    return !this.props.stream.stream || <Hr {...this.props} />;
+    return !this.props.stream[0] || <Hr {...this.props} />;
   }
 }
 

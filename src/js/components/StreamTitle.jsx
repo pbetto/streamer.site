@@ -14,10 +14,10 @@ const Title = styled.h2`
 
 class StreamTitle extends Component {
   render() {
-    return !this.props.stream.stream ? (
+    return !this.props.stream[0] ? (
       <Title>{this.props.data.offline_tagline}</Title>
     ) : (
-      <Title>{this.props.stream.stream.channel.status}</Title>
+      <Title>{this.props.stream[0].title}</Title>
     );
   }
 }

@@ -8,6 +8,6 @@ const Logo = styled.img`
   width: calc(3vw + 150px);
 `;
 
-const ChannelLogo = props => <Logo src={props.channel.logo} alt="" />;
+const ChannelLogo = props => <Logo src={props.user.profile_image_url} alt="" />;
 
 export default ChannelLogo;

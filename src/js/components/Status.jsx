@@ -29,7 +29,7 @@ class Status extends Component {
   componentDidMount() {}
   render() {
     return (
-      !this.props.stream.stream || (
+      !this.props.stream[0] || (
         <Live {...this.props}>
           <FontAwesomeIcon icon={faCircle} />
           LIVE

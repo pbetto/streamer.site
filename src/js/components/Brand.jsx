@@ -22,7 +22,7 @@ class Brand extends Component {
         ) : (
           <h1>{this.props.data.twitch_channel}</h1>
         )}
-        {this.props.stream.stream ? <Status {...this.props} /> : <span />}
+        {this.props.stream[0] ? <Status {...this.props} /> : <span />}
       </Branding>
     );
   }
