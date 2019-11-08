@@ -1,0 +1,2 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto:500);*{box-sizing:border-box}body,html{font-family:Roboto,sans-serif;font-weight:500;overflow-x:hidden}body,html,p{margin:0;padding:0}.container{width:calc(100% - 4em);max-width:1600px;margin:0 auto}#hero{display:flex;flex-direction:column;justify-content:center;align-items:center}.centered{text-align:center}
+/*# sourceMappingURL=main.a54230a4.chunk.css.map */
