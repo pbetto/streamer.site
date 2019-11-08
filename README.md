@@ -23,15 +23,5 @@ There is a config.json that has some examples and has some comments on how you s
 ## Made With...
 
 * [React](//reactjs.org) 16
-* [jQuery](//jquery.com) Javascript Library
-* [FontAwesome 5](//fontawesome.com/) Icons
-* [Webpack](//webpack.js.org) 3 conveniently bundles your code for you.
-* [Babel](//babeljs.io) lets you use ES6/7 features.
-* [ESLint](//eslint.org/) with
-  [AirBnB](//github.com/airbnb/javascript) Rules
-* [Flow](//flow.org/) Static type checker for JS
-* [Prettier](//prettier.io/) Code formatter
-* [Webpack Dev Server](//webpack.js.org/configuration/dev-server/) with
-  [Hot Module Reloading](//webpack.js.org/guides/hot-module-replacement/)
-  for JS and CSS makes development quick and easy.
+* [Create React App](//https://create-react-app.dev)
 * [Styled Components](//styled-components.com/)
