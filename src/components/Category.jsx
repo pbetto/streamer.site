@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { faGamepad } from '@fortawesome/fontawesome-free-solid';
-import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+import { faGamepad } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const Subtitle = styled.p`
   display: flex;

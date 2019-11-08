@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { faTwitch } from '@fortawesome/fontawesome-free-brands';
-import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+import { faTwitch } from '@fortawesome/free-brands-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const Button = styled.a`
   text-transform: uppercase;

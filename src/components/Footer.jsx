@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { faCopyright, faAngleLeft, faAngleRight } from '@fortawesome/fontawesome-free-solid';
-import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+import { faCopyright, faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const Foot = styled.div`
   padding: 1em 0;

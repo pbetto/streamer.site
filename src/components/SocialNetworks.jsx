@@ -5,7 +5,7 @@ import {
   faShoppingCart,
   faDollarSign,
   faLink,
-} from '@fortawesome/fontawesome-free-solid';
+} from '@fortawesome/free-solid-svg-icons';
 import {
   faTwitter,
   faYoutube,
@@ -26,8 +26,8 @@ import {
   faTumblr,
   faFlickr,
   faLinkedin,
-} from '@fortawesome/fontawesome-free-brands';
-import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+} from '@fortawesome/free-brands-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const SocialItems = styled.div`
   width: 100%;

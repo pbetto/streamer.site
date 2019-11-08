@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { faEye, faUsers } from '@fortawesome/fontawesome-free-solid';
-import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+import { faEye, faUsers } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const StatsDiv = styled.ul`
   display: flex;
