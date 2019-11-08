@@ -1,6 +1,6 @@
 // Dependencies
 import React, { Component } from 'react';
-import styled, { injectGlobal } from 'styled-components';
+import styled, { createGlobalStyle } from 'styled-components';
 import axios from 'axios';
 
 // Components
@@ -41,19 +41,11 @@ class App extends Component {
   }
   render() {
     const data = config.get();
-    injectGlobal`
-    @import url('https://fonts.googleapis.com/css?family=Roboto:500');
-    @import url("${data.font_url}");
-    body {color: ${data.font_color};}
-    * {box-sizing: border-box;}
-    html,body {margin: 0;padding: 0;background: #000;font-family: 'Roboto', sans-serif; font-weight: 500;overflow-x: hidden;}
-    h1,h2 {display: inline-block;font-family: ${data.brand_font};font-weight: ${
-  data.font_weight
-}; padding: 0; margin: 0;}
-    p {margin: 0;padding: 0;}
-    .container {width: calc(100% - 4em);max-width: 1600px;margin: 0 auto;}
-    #hero {display: flex;flex-direction: column;justify-content: center;align-items: center;}
-    .centered {text-align: center;}
+    const GlobalStyle = createGlobalStyle`
+    @import url("${props => props.fontUrl}");
+    body {color: ${props => props.fontColor};}
+    h1,h2 {display: inline-block;font-family: ${props => props.fontFamily};
+    font-weight: ${props => props.fontWeight}; padding: 0; margin: 0;}
   `;
     const Content = styled.div`
     position: relative;
@@ -69,13 +61,16 @@ class App extends Component {
       return null;
     }
     return (
-      <Background data={data}>
-        <Content>
-          <Header data={data} stream={this.state.streamInfo} />
-          <Hero data={data} user={this.state.userInfo} stream={this.state.streamInfo} />
-          <Footer data={data} />
-        </Content>
-      </Background>
+      <React.Fragment>
+        <GlobalStyle fontUrl={data.font_url} fontColor={data.font_color} fontWeight={data.font_weight} fontFamily={data.brand_font} />
+        <Background data={data}>
+          <Content>
+            <Header data={data} stream={this.state.streamInfo} />
+            <Hero data={data} user={this.state.userInfo} stream={this.state.streamInfo} />
+            <Footer data={data} />
+          </Content>
+        </Background>
+      </React.Fragment>
     );
   }
 }
