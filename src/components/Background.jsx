@@ -21,6 +21,8 @@ class Background extends Component {
       <YoutubeBackground
         videoId={this.props.data.background_video}
         overlay={`rgba(0, 0, 0, ${this.props.data.overlay_opacity})`}
+        nocookie={true}
+        onReady={event => event.target.seekTo(this.props.data.background_start)}
       >
         {this.props.children}
       </YoutubeBackground>
