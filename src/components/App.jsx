@@ -18,8 +18,9 @@ class App extends Component {
     super(props);
     this.state = {
       url: 'https://api.twitch.tv/helix/',
-      streamInfo: [],
-      userInfo: [],
+      streamInfo: {},
+      userInfo: {},
+      userFollowsInfo: {},
     };
   }
   async componentDidMount() {
@@ -35,7 +36,15 @@ class App extends Component {
       .get(`${this.state.url}users?login=${data.twitch_channel}`, {
         headers: { 'Client-ID': data.api_key },
       })
-      .then(res => this.setState({ userInfo: res.data.data[0] }))
+      .then(res => {
+        this.setState({ userInfo: res.data.data[0] })
+        axios
+          .get(`${this.state.url}users/follows?first=1&to_id=${this.state.userInfo.id}`, {
+            headers: { 'Client-ID': data.api_key },
+          })
+          .then(res => this.setState({ userFollowsInfo: res.data }))
+          .catch(err => console.log(`Unable to fetch Twitch API ${err}`));
+      })
       .catch(err => console.log(`Unable to fetch Twitch API ${err}`));
     document.title = `${data.twitch_channel} - ${data.site_title}`;
   }
@@ -66,7 +75,7 @@ class App extends Component {
         <Background data={data}>
           <Content>
             <Header data={data} stream={this.state.streamInfo} />
-            <Hero data={data} user={this.state.userInfo} stream={this.state.streamInfo} />
+            <Hero data={data} user={this.state.userInfo} follows={this.state.userFollowsInfo} stream={this.state.streamInfo} />
             <Footer data={data} />
           </Content>
         </Background>
