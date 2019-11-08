@@ -1,12 +1,12 @@
 ![](https://i.imgur.com/3HE9msU.png)
 
-# Twitch Streamer Website Template
+# dam0un.live
 
 This is really simple one page website. Super simple setup and easy to customize.
 
 ## Demo
 
-[Check out the demo](https://streamer-site.netlify.com/)
+[Check out the demo](http://dam0un.live/)
 
 ## Getting Started
 

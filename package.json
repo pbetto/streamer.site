@@ -1,20 +1,21 @@
 {
   "author": {
-    "name": "Robert Morris",
-    "email": "rmorris84@gmail.com",
-    "url": "https://github.com/rmorris84"
+    "name": "Damine PLENARD",
+    "email": "damien@plenard.me",
+    "url": "https://github.com/damoun"
   },
   "license": "GPL-3.0",
   "bugs": {
-    "url": "https://github.com/rmorris84/streamer-template/issues"
+    "url": "https://github.com/damoun/dam0un.live/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rmorris84/streamer-template.git"
+    "url": "git+https://github.com/damoun/dam0un.live.git"
   },
-  "name": "streamer-template",
-  "version": "1.0.0",
-  "description": "A website template for Twitch.tv streamers",
+  "name": "dam0un-live",
+  "version": "1.1.0",
+  "description": "A website for my Twitch.tv channel",
+  "homepage": "http://dam0un.live",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
