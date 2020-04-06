@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto:500');
+@import url('https://fonts.googleapis.com/css?family=Montserrat:500');
 
 * {
   box-sizing: border-box;
@@ -8,7 +8,7 @@ html,
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Montserrat', sans-serif;
   font-weight: 500;
   overflow-x: hidden;
 }
@@ -33,4 +33,23 @@ p {
 
 .centered {
   text-align: center;
+}
+
+.outer {
+  width: 100%;
+  display: block;
+}
+
+.inner{
+  width: 80%;
+}
+
+.col-100 {
+  display: flex;
+  align-items: center;
+}
+.game-title {
+  display: flex;
+  font-size: 1.17em;
+  font-weight: 700;
 }
